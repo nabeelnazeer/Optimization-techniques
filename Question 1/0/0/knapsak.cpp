@@ -8,7 +8,7 @@ int max(int a, int b) {
 }
 
 // Function to solve 0/1 Knapsack problem
-int knapsack(int capacity, int weights[], int values[], int n) {
+int knapsack(int capacity, int weights[], int values[], int n, bool selectedItems[]) {
     int dp[n + 1][capacity + 1];
 
     // Initializing the dp array
@@ -22,6 +22,16 @@ int knapsack(int capacity, int weights[], int values[], int n) {
                 dp[i][w] = dp[i - 1][w];
             }
         }
+    }
+
+    // Backtrack to find selected items
+    int i = n, w = capacity;
+    while (i > 0 && w > 0) {
+        if (dp[i][w] != dp[i - 1][w]) {
+            selectedItems[i - 1] = true;
+            w -= weights[i - 1];
+        }
+        i--;
     }
 
     return dp[n][capacity];
@@ -51,8 +61,20 @@ int main() {
     cout << "Enter the maximum capacity of the knapsack: ";
     cin >> capacity;
 
-    int result = knapsack(capacity, weights, values, n);
+    bool selectedItems[n] = {false}; // To store whether an item is selected
+
+    int result = knapsack(capacity, weights, values, n, selectedItems);
+
     cout << "The maximum profit for the given items is: " << result << endl;
+    cout << "Items selected in the knapsack: ";
+    
+    for (int i = 0; i < n; ++i) {
+        if (selectedItems[i]) {
+            cout << "Item " << i + 1 << " ";
+        }
+    }
+
+    cout << endl;
 
     return 0;
 }
