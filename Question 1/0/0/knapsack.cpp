@@ -44,7 +44,7 @@ int main() {
 
     int* weights = new int[n];
     int* values = new int[n];
-    bool* selectedItems = new bool[n] {false}; // To store whether an item is selected
+    bool* selectedItems = new bool[n]; 
 
     cout << "Enter the weights of items:\n";
     for (int i = 0; i < n; ++i) {
