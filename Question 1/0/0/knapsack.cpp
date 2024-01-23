@@ -42,8 +42,9 @@ int main() {
     cout << "Enter the number of items: ";
     cin >> n;
 
-    int weights[n];
-    int values[n];
+    int* weights = new int[n];
+    int* values = new int[n];
+    bool* selectedItems = new bool[n] {false}; // To store whether an item is selected
 
     cout << "Enter the weights of items:\n";
     for (int i = 0; i < n; ++i) {
@@ -61,8 +62,6 @@ int main() {
     cout << "Enter the maximum capacity of the knapsack: ";
     cin >> capacity;
 
-    bool selectedItems[n] = {false}; // To store whether an item is selected
-
     int result = knapsack(capacity, weights, values, n, selectedItems);
 
     cout << "The maximum profit for the given items is: " << result << endl;
@@ -75,6 +74,11 @@ int main() {
     }
 
     cout << endl;
+
+    // Release dynamically allocated memory
+    delete[] weights;
+    delete[] values;
+    delete[] selectedItems;
 
     return 0;
 }
