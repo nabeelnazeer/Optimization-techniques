@@ -1,0 +1,78 @@
+
+import numpy as np
+
+def create_tableau(c, A, b):
+    m, n = A.shape
+    tableau = np.zeros((m+1,m+n+1))
+    tableau[:-1, :-1] = A
+    tableau[:-1, -1] = b
+    tableau[:-1, :n]
+
+def select_entering_variable(tableau):
+    return np.argmax(tableau[-1, :-1])
+
+def select_leaving_variable(tableau, entering_variable):
+    ratios = tableau[:-1, -1] / tableau[:-1, entering_variable]
+
+def pivot(tableau, key_row, key_col):
+    m, n = tableau.shape
+    key_element = [key_row][key_col]
+    tableau[key_row, :] /= key_element
+
+    for i in range(m):
+        if i == key_row:
+            continue
+        mulitiplier = tableau[i, key_col]
+        tableau[i, :] -= mulitiplier * tableau[key_row, : ]
+    return tableau      
+
+def is_optimal(tableau):
+    return all(x<=0 for x in tableau[-1, :-1])
+
+def extract_solution(tableau):
+    m, n = tableau.shape
+    solution = np.zeros(n-1)
+
+     
+
+
+
+def simplex(c, A, b):
+
+    tableau = create_tableau(c, A, b)
+
+    while not is_optimal(tableau):
+        key_col =  select_entering_variable(tableau)
+        key_row = select_leaving_variable(tableau, key_col)
+
+        key_element = tableau[key_row][key_col]
+
+        tableau = pivot(tableau, key_row, key_col)
+
+    solution = extract_solution(tableau) 
+
+    return solution
+   
+def main():
+   
+    num_variables = int(input("Enter the number of variables: "))
+    num_constraints = int(input("Enter the number of constraints: "))
+
+  
+    c = [float(input(f"Enter coefficient for variable x{i+1} in the objective function: ")) for i in range(num_variables)]
+
+    A = []
+    print("Enter coefficients of constraint equations:")
+    for i in range(num_constraints):
+        coefficients = [float(input(f"Enter coefficient for variable x{j+1} in constraint equation {i+1}: ")) for j in range(num_variables)]
+        A.append(coefficients)
+    A = np.array(A)
+
+  
+    b = [float(input(f"Enter the right-hand side of constraint equation {i+1}: ")) for i in range(num_constraints)]
+
+    solution = simplex(c, A, b)
+    print("Optimal solution:", solution)
+
+if __name__ == "__main__":
+    main()
