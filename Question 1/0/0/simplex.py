@@ -52,17 +52,10 @@ def main():
 
     c = [float(input(f"Enter coefficient for variable x{i+1} in the objective function: ")) for i in range(num_variables)]
 
-    # A = []
-    # print("Enter coefficients of constraint equations:")
-    # for i in range(num_constraints):
-    #     coefficients = [float(input(f"Enter coefficient for variable x{j+1} in constraint equation {i+1}: ")) for j in range(num_variables)]
-    #     A.append(coefficients)
-    # A = np.array(A)
-
     A = np.zeros((num_constraints,num_variables))
     print("Enter the coefficients of the constrained equation")
     for i in range(num_constraints):
-        A[i] = np.array([float(input("enter coeficient for xi+1 for constraoined equation xj+1 "))]) for j in 
+            A[i] = [np.array([float(input(f"enter coeficient for xi+1 for constraoined equation xj+1 "))]) for i in range(num_variables)]
 
 
     b = [float(input(f"Enter the right-hand side of constraint equation {i+1}: ")) for i in range(num_constraints)]
