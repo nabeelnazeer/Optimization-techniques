@@ -1,34 +1,46 @@
 # Transportation problem - northwest corner cell method using user inpuut
 
 import numpy as np
+import numpy as np
 
-def northwest_corner_cell(supply, demand):
-  solution = np.zeros((len(supply), len(demand)))
+def northwest_corner_cell(supply, demand, cost_matrix):
+    solution = np.zeros((len(supply), len(demand)))
 
-  current_supply = supply.copy()
-  current_demand = demand.copy()
+    current_supply = supply.copy()
+    current_demand = demand.copy()
 
-  for i in range(len(supply)):
-    for j in range(len(demand)):
-      allocation = min(current_supply[i], current_demand[j])
+    total_cost = 0  # Initialize total cost
 
-      solution[i][j] = allocation
-      current_supply[i] -= allocation
-      current_demand[j] -= allocation
+    for i in range(len(supply)):
+        for j in range(len(demand)):
+            allocation = min(current_supply[i], current_demand[j])
 
-      if current_demand[j] == 0:
-        break
+            solution[i][j] = allocation
+            current_supply[i] -= allocation
+            current_demand[j] -= allocation
 
-  return solution
+            # Add the cost of allocation to the total cost
+            total_cost += allocation * cost_matrix[i][j]
+
+            if current_demand[j] == 0:
+                break
+
+    return solution, total_cost
 
 supply = list(map(int, input("Enter the supply for each source (separated by spaces): ").split()))
 demand = list(map(int, input("Enter the demand for each destination (separated by spaces): ").split()))
 
-solution = northwest_corner_cell(supply, demand)
+cost_matrix = []
+print("Enter the transportation cost matrix:")
+for _ in range(len(supply)):
+    row = list(map(int, input().split()))
+    cost_matrix.append(row)
+
+solution, total_cost = northwest_corner_cell(supply, demand, cost_matrix)
 
 print("\nInitial Solution:")
 print(solution)
-
+print("Total Cost:", total_cost)
 
 # The Northwest Corner Method is a heuristic algorithm used for finding an initial feasible solution to transportation problems. It's named as such because it starts allocating resources from the northwest corner of the transportation matrix and fills as much as possible until the demand and supply constraints are satisfied. Here's the algorithm:
 
