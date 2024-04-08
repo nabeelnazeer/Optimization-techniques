@@ -60,7 +60,10 @@ def main():
     # A = np.array(A)
 
     A = np.zeros((num_constraints,num_variables))
-    
+    print("Enter the coefficients of the constrained equation")
+    for i in range(num_constraints):
+        A[i] = np.array([float(input("enter coeficient for xi+1 for constraoined equation xj+1 "))]) for j in 
+
 
     b = [float(input(f"Enter the right-hand side of constraint equation {i+1}: ")) for i in range(num_constraints)]
 
